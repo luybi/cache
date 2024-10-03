@@ -36,7 +36,7 @@ int access_cache(Cache *cache, unsigned int address, int *hit, int *miss, int *m
     for (int i = 0; i < cache->assoc; i++) {
         if (set->lines[i].valid && set->lines[i].tag == tag) {
             *hit += 1;
-            set->lines[i].last_used = 0; // Para LRU
+            set->lines[i].last_used = clock(); // Atualiza o tempo de último uso
             return 1;  // Cache hit
         }
     }
@@ -90,7 +90,7 @@ void replace_line(Cache *cache, int index, unsigned int tag) {
         // LRU
         int lru = set->lines[0].last_used;
         for (int i = 1; i < cache->assoc; i++) {
-            if (set->lines[i].last_used > lru) {
+            if (set->lines[i].last_used < lru) {
                 lru = set->lines[i].last_used;
                 line_to_replace = i;
             }
@@ -101,7 +101,7 @@ void replace_line(Cache *cache, int index, unsigned int tag) {
     set->lines[line_to_replace].valid = 1;
     set->lines[line_to_replace].tag = tag;
     set->lines[line_to_replace].load_time = clock();  // Atualiza o tempo de carregamento
-    set->lines[line_to_replace].last_used = 0;        // Atualiza o uso para LRU
+    set->lines[line_to_replace].last_used = clock();  // Atualiza o tempo de último uso
 }
 
 // Função para ler arquivo de endereços e simular acessos
@@ -148,7 +148,7 @@ void print_stats(int total_accesses, int hit, int miss, int miss_comp, int miss_
 }
 
 // Função principal
-int main( int argc, char *argv[] ) {
+int main(int argc, char *argv[]) {
     if (argc != 7) {
         printf("Numero de argumentos incorreto. Utilize:\n");
         printf("./cache_simulator <nsets> <bsize> <assoc> <substituição> <flag_saida> arquivo_de_entrada\n");
@@ -162,10 +162,13 @@ int main( int argc, char *argv[] ) {
     int flagOut = atoi(argv[5]);
     char *arquivoEntrada = argv[6];
 
+    // Inicializa o gerador de números aleatórios
+    srand(time(NULL));
+
     printf("nsets = %d\n", nsets);
     printf("bsize = %d\n", bsize);
     printf("assoc = %d\n", assoc);
-        printf("subst = %c\n", subst);
+    printf("subst = %c\n", subst);
     printf("flagOut = %d\n", flagOut);
     printf("arquivo = %s\n", arquivoEntrada);
 
@@ -184,4 +187,3 @@ int main( int argc, char *argv[] ) {
 
     return 0;
 }
-
