@@ -1,4 +1,4 @@
-SimuladorDeCache
+
 Um simulador de cache implementado em C para a disciplina de AOC2. Este projeto oferece uma ferramenta eficiente para entender e simular o comportamento de caches em sistemas computacionais.
 
 O simulador pode simular mapeamento direto, totalmente associativo ou conjunto-associativo Alem disso 3 politicas de substituicao sendo elas:
@@ -9,7 +9,7 @@ FIFO (First In, First Out): Substitui o bloco que foi armazenado na cache há ma
 
 Random (Aleatório): Substitui aleatoriamente um bloco da cache quando é necessário fazer uma substituição. Não considera o histórico de acesso ou a ordem dos blocos. Cada bloco tem uma probabilidade igual de ser substituído, independentemente de quando foi acessado pela última vez.
 
-Para utilizacao deste simulador use o seguinte comando: python cache_simulator <substituição> <flag_saida> arquivo_de_entrada *Certifique-se de que os arquivos de entrada se encontram no mesmo diretorio do programa python
+Para utilizacao deste simulador use o seguinte comando: ./cache_simulator <substituição> <flag_saida> arquivo_de_entrada *Certifique-se de que os arquivos de entrada se encontram no mesmo diretorio do programa python
 
 Onde cada um destes campos possui o seguinte significado:
 
